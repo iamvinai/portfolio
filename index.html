@@ -290,8 +290,9 @@
 
       .gradient-quote::after {
         content: "”";
-        bottom: -0.4em;
-        right: -0.1em;
+        /* UPDATED: Adjusted position to prevent overlap */
+        bottom: -0.5em;
+        right: 0em;
       }
 
       .gradient-quote p {
@@ -326,12 +327,15 @@
       }
       .skills-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 20px;
+        /* UPDATED: Reduced min-width for more compact boxes */
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        /* UPDATED: Reduced gap for tighter grid */
+        gap: 15px;
         perspective: 1000px;
       }
       .skill-item {
-        padding: 20px 15px;
+        /* UPDATED: Reduced padding for smaller boxes */
+        padding: 18px 12px;
         border-radius: 15px;
         text-align: center;
         opacity: 0;
@@ -375,7 +379,6 @@
         font-size: 1.05rem;
         position: relative;
         z-index: 2;
-        /* UPDATED: Subtle white gradient for skill text */
         background: linear-gradient(90deg, var(--text-secondary-color), white);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
