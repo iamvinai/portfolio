@@ -290,9 +290,9 @@
 
       .gradient-quote::after {
         content: "”";
-        /* UPDATED: Adjusted position to prevent overlap */
+        /* FIXED: Adjusted position to prevent overlap */
         bottom: -0.5em;
-        right: 0em;
+        right: -0.2em;
       }
 
       .gradient-quote p {
@@ -327,16 +327,16 @@
       }
       .skills-grid {
         display: grid;
-        /* UPDATED: Reduced min-width for more compact boxes */
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        /* UPDATED: Further reduced min-width for more compact boxes */
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
         /* UPDATED: Reduced gap for tighter grid */
         gap: 15px;
         perspective: 1000px;
       }
       .skill-item {
         /* UPDATED: Reduced padding for smaller boxes */
-        padding: 18px 12px;
-        border-radius: 15px;
+        padding: 15px 10px;
+        border-radius: 12px;
         text-align: center;
         opacity: 0;
         transform: translateY(30px);
@@ -376,7 +376,7 @@
 
       .skill-item span {
         font-weight: 600;
-        font-size: 1.05rem;
+        font-size: 1rem;
         position: relative;
         z-index: 2;
         background: linear-gradient(90deg, var(--text-secondary-color), white);
