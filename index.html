@@ -55,16 +55,14 @@
         overflow: hidden;
       }
 
-      main,
-      .floating-nav {
+      #page-container {
         transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
           filter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
 
-      body.modal-open main,
-      body.modal-open .floating-nav {
+      body.modal-open #page-container {
         transform: scale(1.02);
-        filter: blur(5px);
+        filter: blur(8px);
         pointer-events: none;
       }
 
@@ -72,7 +70,7 @@
         width: 90%;
         max-width: 1000px;
         margin: 0 auto;
-        padding: 120px 0;
+        padding: 100px 0;
         position: relative;
       }
 
@@ -213,6 +211,29 @@
         z-index: 1;
       }
 
+      /* NEW: Keyframes for hero text animations */
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
       #hero-text h1 {
         font-size: clamp(3.2rem, 8vw, 6rem);
         font-weight: 800;
@@ -220,6 +241,9 @@
         letter-spacing: -0.03em;
         color: var(--text-color);
         text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        /* UPDATED: Added zoom-in animation */
+        opacity: 0;
+        animation: zoomIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
       }
 
       #hero-text p {
@@ -234,6 +258,9 @@
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        /* UPDATED: Added fade-in animation with delay */
+        opacity: 0;
+        animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards;
       }
 
       /* General Section & Animation Styling */
@@ -257,7 +284,7 @@
         font-size: clamp(2.5rem, 5vw, 3.2rem);
         font-weight: 700;
         text-align: center;
-        margin-bottom: 80px;
+        margin-bottom: 70px;
         letter-spacing: -0.02em;
         background: linear-gradient(
           90deg,
@@ -327,11 +354,11 @@
         -webkit-text-fill-color: transparent;
       }
 
-      /* --- UPDATED: Skills Section --- */
+      /* --- Skills Section --- */
       .skills-container {
         display: flex;
         flex-direction: column;
-        gap: 50px;
+        gap: 40px;
       }
       .skill-category h3 {
         font-size: 1.6rem;
@@ -355,17 +382,17 @@
         transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         position: relative;
         overflow: hidden;
-        background: rgba(45, 45, 55, 0.3);
-        backdrop-filter: blur(12px) saturate(150%);
-        -webkit-backdrop-filter: blur(12px) saturate(150%);
+        background: rgba(60, 60, 70, 0.2);
+        backdrop-filter: blur(15px) saturate(110%);
+        -webkit-backdrop-filter: blur(15px) saturate(110%);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08),
           0 4px 15px rgba(0, 0, 0, 0.2);
       }
 
       .skill-item:hover {
         transform: translateY(-5px) scale(1.05);
-        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08),
           0 10px 25px rgba(0, 0, 0, 0.3);
         border-color: rgba(255, 255, 255, 0.2);
       }
@@ -378,7 +405,6 @@
         background: linear-gradient(90deg, var(--text-secondary-color), white);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        /* Raised text effect */
         text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
       }
       .visible .skill-item {
@@ -390,7 +416,7 @@
       .project-card {
         border-radius: 20px;
         padding: 35px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -411,10 +437,18 @@
         -webkit-text-fill-color: transparent;
         font-weight: 700;
       }
-      .project-card p {
+      .project-card p,
+      .project-card ul {
         color: var(--text-secondary-color);
         font-size: 1.1rem;
         line-height: 1.7;
+      }
+      .project-card ul {
+        list-style-position: inside;
+        padding-left: 5px;
+      }
+      .project-card li {
+        margin-bottom: 8px;
       }
       .project-tags {
         display: flex;
@@ -435,7 +469,7 @@
       /* Experience Section */
       .timeline {
         position: relative;
-        max-width: 800px;
+        max-width: 950px;
         margin: 0 auto;
       }
       .timeline::after {
@@ -510,15 +544,24 @@
         display: block;
         margin-bottom: 10px;
       }
-      .timeline-content p {
+      .timeline-content p,
+      .timeline-content ul {
         color: var(--text-secondary-color);
         font-size: 1rem;
+        text-align: left;
+      }
+      .timeline-content ul {
+        padding-left: 20px;
+        margin-top: 10px;
+      }
+      .timeline-content li {
+        margin-bottom: 5px;
       }
 
       /* Footer */
       .main-footer {
         text-align: center;
-        padding: 80px 0;
+        padding: 70px 0;
         padding-bottom: 120px;
       }
       .footer-content h2 {
@@ -593,9 +636,7 @@
         transform: scale(0.5);
         transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
           opacity 0.3s ease;
-        background: rgba(40, 40, 50, 0.35);
-        backdrop-filter: blur(30px) saturate(120%);
-        -webkit-backdrop-filter: blur(30px) saturate(120%);
+        background: rgba(25, 25, 30, 0.9);
         border: 1px solid var(--glass-border);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
       }
@@ -734,270 +775,288 @@
     </style>
   </head>
   <body>
-    <div id="hero-canvas-container"></div>
-    <div class="glow-bg"></div>
+    <div id="page-container">
+      <div id="hero-canvas-container"></div>
+      <div class="glow-bg"></div>
+      <main>
+        <section id="home" class="hero">
+          <div id="hero-text">
+            <h1>Vinay Tummala</h1>
+            <p>
+              Java Full Stack Developer with a passion for building scalable,
+              high-quality software solutions.
+            </p>
+          </div>
+        </section>
 
-    <header class="floating-nav glass-panel">
-      <nav class="main-nav">
-        <ul>
-          <li class="nav-highlight"></li>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
+        <div class="content-section">
+          <section id="about" class="container scroll-section">
+            <div class="glass-panel">
+              <h2 class="section-title">About Me</h2>
+              <div class="gradient-quote">
+                <p>
+                  I'm a full-stack developer who finds genuine satisfaction in
+                  building high-quality, scalable applications. I specialize in
+                  the Java ecosystem and enjoy taking a project from its initial
+                  concept to a polished, enterprise-ready solution. For me, the
+                  ultimate goal is to create software that is not just
+                  functional, but also efficient and thoughtfully designed.
+                </p>
+                <p style="margin-top: 20px">
+                  My Master's in Computer Science provided a strong theoretical
+                  foundation, which I've since applied to real-world challenges
+                  in fast-paced development environments. I enjoy the process of
+                  architecting clean, maintainable systems and believe that the
+                  best solutions are born from a deep understanding of both the
+                  technical details and the business goals. I'm a firm believer
+                  in the power of collaboration and am always looking for
+                  opportunities to learn and work with new technologies that
+                  solve real problems.
+                </p>
+              </div>
+            </div>
+          </section>
 
-    <main>
-      <section id="home" class="hero">
-        <div id="hero-text" class="scroll-section">
-          <h1>Vinay Tummala</h1>
-          <p>
-            Java Full Stack Developer with a passion for building scalable,
-            high-quality software solutions.
-          </p>
-        </div>
-      </section>
+          <section id="skills" class="container scroll-section">
+            <h2 class="section-title">Technical Expertise</h2>
+            <div class="skills-container">
+              <div class="skill-category">
+                <h3>Backend Development</h3>
+                <div class="skills-grid">
+                  <div class="skill-item"><span>Java (11/8)</span></div>
+                  <div class="skill-item"><span>Spring Boot</span></div>
+                  <div class="skill-item"><span>Microservices</span></div>
+                  <div class="skill-item"><span>RESTful APIs</span></div>
+                  <div class="skill-item"><span>GraphQL</span></div>
+                  <div class="skill-item"><span>Hibernate / JPA</span></div>
+                  <div class="skill-item"><span>Spring Security</span></div>
+                  <div class="skill-item"><span>Spring Cloud</span></div>
+                </div>
+              </div>
+              <div class="skill-category">
+                <h3>Frontend Development</h3>
+                <div class="skills-grid">
+                  <div class="skill-item"><span>React.js</span></div>
+                  <div class="skill-item"><span>TypeScript</span></div>
+                  <div class="skill-item"><span>JavaScript (ES6+)</span></div>
+                  <div class="skill-item"><span>Next.js</span></div>
+                  <div class="skill-item"><span>HTML5 & CSS3</span></div>
+                  <div class="skill-item"><span>React Router</span></div>
+                  <div class="skill-item"><span>Redux</span></div>
+                </div>
+              </div>
+              <div class="skill-category">
+                <h3>Databases & Messaging</h3>
+                <div class="skills-grid">
+                  <div class="skill-item"><span>PostgreSQL</span></div>
+                  <div class="skill-item"><span>MySQL</span></div>
+                  <div class="skill-item"><span>Oracle DB</span></div>
+                  <div class="skill-item"><span>MongoDB</span></div>
+                  <div class="skill-item"><span>Redis</span></div>
+                  <div class="skill-item"><span>Apache Kafka</span></div>
+                  <div class="skill-item"><span>RabbitMQ</span></div>
+                </div>
+              </div>
+              <div class="skill-category">
+                <h3>DevOps, Testing & Tools</h3>
+                <div class="skills-grid">
+                  <div class="skill-item"><span>AWS (S3, EC2, RDS)</span></div>
+                  <div class="skill-item"><span>Docker</span></div>
+                  <div class="skill-item"><span>Kubernetes</span></div>
+                  <div class="skill-item"><span>Terraform</span></div>
+                  <div class="skill-item"><span>Git & GitHub</span></div>
+                  <div class="skill-item"><span>Jira</span></div>
+                  <div class="skill-item"><span>CI/CD (Jenkins)</span></div>
+                  <div class="skill-item"><span>JUnit & Mockito</span></div>
+                  <div class="skill-item"><span>Jest & RTL</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-      <div class="content-section">
-        <section id="about" class="container scroll-section">
-          <div class="glass-panel">
-            <h2 class="section-title">About Me</h2>
-            <div class="gradient-quote">
+          <section id="projects" class="container scroll-section">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="project-card glass-panel">
+              <h3>Campus Companion | AI-Powered Web App</h3>
               <p>
-                Hello! I'm Vinay, a dedicated Java Full Stack Developer with a
-                passion for building enterprise-grade applications from the
-                ground up. My journey in tech is driven by a simple principle:
-                create software that is not only functional but also robust,
-                scalable, and efficient.
+                Led an 11-member team to develop a full-stack web application
+                that won the "Best Project Award." This platform serves as a
+                comprehensive tool for university students, enhancing their
+                academic journey.
               </p>
-              <p style="margin-top: 20px">
-                With a Master's in Computer Science (4.0 GPA) and hands-on
-                experience in fast-paced environments, I've honed my skills
-                across the entire development lifecycle. I thrive on solving
-                complex problems and am deeply passionate about clean code,
-                architectural patterns, and collaborative teamwork. I'm always
-                eager to learn new technologies and take on challenges that push
-                the boundaries of my knowledge.
+              <ul>
+                <li>
+                  Engineered a secure backend with Spring Boot, implementing
+                  role-based access control with Spring Security.
+                </li>
+                <li>
+                  Designed and integrated a PostgreSQL database for efficient
+                  data management.
+                </li>
+                <li>
+                  Leveraged AWS S3 for scalable file storage and integrated the
+                  Stripe API for secure subscription management.
+                </li>
+                <li>
+                  Developed an AI-based course recommendation engine to provide
+                  personalized academic guidance.
+                </li>
+              </ul>
+              <div class="project-tags">
+                <span class="project-tag">React.js</span>
+                <span class="project-tag">Java</span>
+                <span class="project-tag">Spring Boot</span>
+                <span class="project-tag">Spring Security</span>
+                <span class="project-tag">PostgreSQL</span>
+                <span class="project-tag">AWS S3</span>
+                <span class="project-tag">Stripe API</span>
+              </div>
+            </div>
+            <div class="project-card glass-panel">
+              <h3>Cognitive Model for Object Detection</h3>
+              <p>
+                Built an innovative AI-powered system that identifies real-world
+                objects from voice commands, achieving 90.33% accuracy in
+                real-time detection.
               </p>
+              <ul>
+                <li>
+                  Utilized Python and the YOLO (You Only Look Once) algorithm
+                  for high-speed object detection.
+                </li>
+                <li>
+                  Integrated Google’s Speech Recognition API to process voice
+                  commands.
+                </li>
+                <li>
+                  Optimized performance through multi-threading and GPU
+                  acceleration on Google Cloud Platform.
+                </li>
+              </ul>
+              <div class="project-tags">
+                <span class="project-tag">Python</span>
+                <span class="project-tag">YOLOv3</span>
+                <span class="project-tag">Speech Recognition</span>
+                <span class="project-tag">OpenCV</span>
+                <span class="project-tag">Google Cloud</span>
+                <span class="project-tag">AI/ML</span>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="skills" class="container scroll-section">
-          <h2 class="section-title">Technical Expertise</h2>
-          <div class="skills-container">
-            <div class="skill-category">
-              <h3>Backend Development</h3>
-              <div class="skills-grid">
-                <div class="skill-item glass-panel">
-                  <span>Java (11/8)</span>
+          <section id="experience" class="container scroll-section">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-content glass-panel">
+                  <h3>Senior Software Developer</h3>
+                  <h4>Tata Consultancy Services (TCS)</h4>
+                  <span>May 2021 – Dec 2022</span>
+                  <ul>
+                    <li>
+                      Architected and led the development of a full-stack
+                      Contract Management System, reducing manual processing
+                      time by 40%.
+                    </li>
+                    <li>
+                      Engineered and secured RESTful APIs using Spring Boot,
+                      handling over 100,000 daily requests.
+                    </li>
+                    <li>
+                      Integrated Apache Kafka to build a robust, event-driven
+                      architecture for real-time data synchronization.
+                    </li>
+                    <li>
+                      Optimized PostgreSQL database performance by 30% through
+                      advanced query tuning and indexing.
+                    </li>
+                  </ul>
                 </div>
-                <div class="skill-item glass-panel">
-                  <span>Spring Boot</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-content glass-panel">
+                  <h3>Software Developer Intern</h3>
+                  <h4>Tata Consultancy Services (TCS)</h4>
+                  <span>Mar 2021 – May 2021</span>
+                  <ul>
+                    <li>
+                      Developed and shipped key features for a large-scale
+                      enterprise application using Spring Boot and React.
+                    </li>
+                    <li>
+                      Implemented data persistence logic with Spring Data JPA,
+                      contributing to a 15% improvement in data retrieval times.
+                    </li>
+                    <li>
+                      Actively participated in the full SDLC, including daily
+                      scrums, sprint planning, and code reviews within an Agile
+                      framework.
+                    </li>
+                  </ul>
                 </div>
-                <div class="skill-item glass-panel">
-                  <span>Microservices</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>RESTful APIs</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Hibernate / JPA</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Spring Security</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-content glass-panel">
+                  <h3>Software Developer Intern</h3>
+                  <h4>OpenText</h4>
+                  <span>Oct 2020 – Feb 2021</span>
+                  <ul>
+                    <li>
+                      Developed and maintained backend modules for internal
+                      business tools within a microservices architecture.
+                    </li>
+                    <li>
+                      Gained hands-on experience with distributed systems and
+                      inter-service communication patterns.
+                    </li>
+                    <li>
+                      Collaborated with senior developers to design and
+                      implement new features, improving tool functionality by
+                      20%.
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
-            <div class="skill-category">
-              <h3>Frontend Development</h3>
-              <div class="skills-grid">
-                <div class="skill-item glass-panel"><span>React.js</span></div>
-                <div class="skill-item glass-panel">
-                  <span>JavaScript (ES6+)</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>HTML5 & CSS3</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>React Router</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Context API / Redux</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>AJAX / Axios</span>
-                </div>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h3>Databases & Messaging</h3>
-              <div class="skills-grid">
-                <div class="skill-item glass-panel">
-                  <span>PostgreSQL</span>
-                </div>
-                <div class="skill-item glass-panel"><span>MySQL</span></div>
-                <div class="skill-item glass-panel">
-                  <span>Oracle (SQL/PL-SQL)</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Apache Kafka</span>
-                </div>
-                <div class="skill-item glass-panel"><span>RabbitMQ</span></div>
-                <div class="skill-item glass-panel">
-                  <span>MongoDB (Basic)</span>
-                </div>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h3>DevOps, Testing & Tools</h3>
-              <div class="skills-grid">
-                <div class="skill-item glass-panel">
-                  <span>AWS (S3, EC2, RDS)</span>
-                </div>
-                <div class="skill-item glass-panel"><span>Docker</span></div>
-                <div class="skill-item glass-panel">
-                  <span>Git & GitHub</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Jira & Confluence</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>CI/CD (Jenkins)</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>JUnit & Mockito</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Jest & RTL</span>
-                </div>
-                <div class="skill-item glass-panel">
-                  <span>Agile/Scrum</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="projects" class="container scroll-section">
-          <h2 class="section-title">Featured Projects</h2>
-          <div class="project-card glass-panel">
-            <h3>Campus Companion | AI-Powered Web App</h3>
-            <p>
-              Spearheaded an 11-member team to design, develop, and deploy a
-              comprehensive full-stack web application for university students,
-              which proudly won the "Best Project Award". The platform
-              integrated user registration with role-based access (students,
-              admins), secure plan management via the Stripe API, and an
-              innovative AI-driven course recommendation engine to personalize
-              academic planning.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">React.js</span>
-              <span class="project-tag">Java</span>
-              <span class="project-tag">Spring Boot</span>
-              <span class="project-tag">Spring Security</span>
-              <span class="project-tag">PostgreSQL</span>
-              <span class="project-tag">AWS S3</span>
-              <span class="project-tag">Stripe API</span>
-            </div>
-          </div>
-          <div class="project-card glass-panel">
-            <h3>Cognitive Model for Object Detection</h3>
-            <p>
-              Engineered a sophisticated AI-powered system using Python, the
-              YOLO (You Only Look Once) algorithm, and Google’s Speech
-              Recognition API. This project enabled real-time object
-              identification from voice commands, achieving a high accuracy of
-              90.33%. Performance was significantly optimized by implementing
-              multi-threading and leveraging GPU acceleration on the Google
-              Cloud Platform.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">YOLOv3</span>
-              <span class="project-tag">Speech Recognition</span>
-              <span class="project-tag">OpenCV</span>
-              <span class="project-tag">Google Cloud</span>
-              <span class="project-tag">AI/ML</span>
-            </div>
-          </div>
-        </section>
-
-        <section id="experience" class="container scroll-section">
-          <h2 class="section-title">Professional Experience</h2>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-content glass-panel">
-                <h3>Senior Software Developer</h3>
-                <h4>Tata Consultancy Services (TCS)</h4>
-                <span>May 2021 – Dec 2022</span>
-                <p>
-                  Engineered a full-stack Contract Management system using Java,
-                  Spring Boot, and React.js. Developed and secured RESTful APIs,
-                  integrated Apache Kafka for asynchronous event-driven
-                  communication, and optimized database performance through
-                  advanced query tuning.
-                </p>
+          <footer id="contact" class="main-footer scroll-section">
+            <div class="footer-content">
+              <h2>Let's Connect</h2>
+              <p>
+                I'm open to new opportunities and collaborations. Feel free to
+                reach out.
+              </p>
+              <a href="#" class="contact-button">Say Hello</a>
+              <div class="social-links">
+                <a
+                  href="https://www.linkedin.com"
+                  target="_blank"
+                  title="LinkedIn"
+                  >LinkedIn</a
+                >
+                <a href="https://github.com" target="_blank" title="GitHub"
+                  >GitHub</a
+                >
               </div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-content glass-panel">
-                <h3>Software Developer Intern</h3>
-                <h4>Tata Consultancy Services (TCS)</h4>
-                <span>Mar 2021 – May 2021</span>
-                <p>
-                  Contributed to an enterprise application by developing new
-                  features with Spring Boot and React. Focused on backend API
-                  development and implementing data persistence logic with
-                  Spring Data JPA, while actively participating in daily scrums
-                  and code reviews.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-content glass-panel">
-                <h3>Software Developer Intern</h3>
-                <h4>OpenText</h4>
-                <span>Oct 2020 – Feb 2021</span>
-                <p>
-                  Developed and maintained backend modules for internal business
-                  tools using Java and Spring Boot. Operated within a
-                  microservices architecture, gaining valuable experience in
-                  distributed systems and inter-service communication patterns.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer id="contact" class="main-footer scroll-section">
-          <div class="footer-content">
-            <h2>Let's Connect</h2>
-            <p>
-              I'm open to new opportunities and collaborations. Feel free to
-              reach out.
-            </p>
-            <a href="#" class="contact-button">Say Hello</a>
-            <div class="social-links">
-              <a
-                href="https://www.linkedin.com"
-                target="_blank"
-                title="LinkedIn"
-                >LinkedIn</a
-              >
-              <a href="https://github.com" target="_blank" title="GitHub"
-                >GitHub</a
-              >
-            </div>
-          </div>
-        </footer>
-      </div>
-    </main>
+          </footer>
+        </div>
+      </main>
+      <header class="floating-nav glass-panel">
+        <nav class="main-nav">
+          <ul>
+            <li class="nav-highlight"></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
 
     <!-- UPDATED: Contact Modal HTML -->
     <div id="contact-modal-overlay" class="modal-overlay">
@@ -1097,8 +1156,6 @@
 
       // --- UI & Interaction Scripts ---
       document.addEventListener("DOMContentLoaded", function () {
-        // REMOVED 3D tilt effect for skills to implement new design
-
         const navHighlight = document.querySelector(".nav-highlight");
         const navLinks = document.querySelectorAll(".main-nav a");
         let currentActiveLink = document.querySelector(
@@ -1209,27 +1266,34 @@
           document.body.classList.add("modal-open");
 
           const btnRect = contactButton.getBoundingClientRect();
-          const modalWidth = modalPanel.offsetWidth;
 
-          let left = btnRect.left + btnRect.width / 2 - modalWidth / 2;
-          let top = btnRect.top - modalPanel.offsetHeight - 15;
-          let transformOrigin = "center bottom";
+          // Position modal relative to the button
+          let top =
+            btnRect.top + btnRect.height / 2 - modalPanel.offsetHeight / 2;
+          let left =
+            btnRect.left + btnRect.width / 2 - modalPanel.offsetWidth / 2;
 
+          // Set transform origin to the center of the button for a more natural expansion
+          modalPanel.style.transformOrigin = `${
+            left + modalPanel.offsetWidth / 2
+          }px ${top + modalPanel.offsetHeight / 2}px`;
+
+          // Adjust if it goes off-screen
           if (top < 10) {
-            top = btnRect.bottom + 15;
-            transformOrigin = "center top";
+            top = 10;
           }
-
           if (left < 10) {
             left = 10;
           }
-          if (left + modalWidth > window.innerWidth - 10) {
-            left = window.innerWidth - modalWidth - 10;
+          if (left + modalPanel.offsetWidth > window.innerWidth - 10) {
+            left = window.innerWidth - modalPanel.offsetWidth - 10;
+          }
+          if (top + modalPanel.offsetHeight > window.innerHeight - 10) {
+            top = window.innerHeight - modalPanel.offsetHeight - 10;
           }
 
           modalPanel.style.top = `${top}px`;
           modalPanel.style.left = `${left}px`;
-          modalPanel.style.transformOrigin = transformOrigin;
 
           modalOverlay.classList.add("visible");
         });
