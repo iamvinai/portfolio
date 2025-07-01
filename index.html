@@ -290,7 +290,6 @@
 
       .gradient-quote::after {
         content: "”";
-        /* FIXED: Adjusted position to prevent overlap */
         bottom: -0.5em;
         right: -0.2em;
       }
@@ -327,14 +326,11 @@
       }
       .skills-grid {
         display: grid;
-        /* UPDATED: Further reduced min-width for more compact boxes */
         grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-        /* UPDATED: Reduced gap for tighter grid */
         gap: 15px;
         perspective: 1000px;
       }
       .skill-item {
-        /* UPDATED: Reduced padding for smaller boxes */
         padding: 15px 10px;
         border-radius: 12px;
         text-align: center;
@@ -564,6 +560,124 @@
       .social-links a:hover {
         color: var(--accent-color-1);
         transform: scale(1.1);
+      }
+
+      /* --- NEW: Contact Modal Styles --- */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .modal-overlay.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-panel {
+        width: 90%;
+        max-width: 500px;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transform-origin: 50% 100%; /* Animate from bottom center */
+      }
+
+      .modal-overlay.visible .modal-panel {
+        transform: scale(1) translateY(0);
+      }
+
+      .modal-panel h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-color-1),
+          var(--accent-color-2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--text-color);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.3s;
+      }
+
+      .close-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+
+      .contact-info-item {
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      .contact-info-item > span {
+        font-weight: 600;
+        color: var(--text-secondary-color);
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .copy-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid var(--glass-border);
+      }
+
+      .copy-container p {
+        color: var(--text-color);
+        font-weight: 500;
+        word-break: break-all;
+      }
+
+      .copy-btn {
+        background: var(--accent-color-2);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-left: 10px;
+      }
+
+      .copy-btn:hover {
+        background: var(--accent-color-1);
       }
 
       /* Responsive Design */
@@ -846,7 +960,9 @@
               I'm open to new opportunities and collaborations. Feel free to
               reach out.
             </p>
-            <a href="mailto:vinaiinfo18@gmail.com" class="contact-button"
+            <a
+              href="mailto:vinaytummalaofficial@gmail.com"
+              class="contact-button"
               >Say Hello</a
             >
             <div class="social-links">
@@ -864,6 +980,28 @@
         </footer>
       </div>
     </main>
+
+    <!-- NEW: Contact Modal HTML -->
+    <div id="contact-modal-overlay" class="modal-overlay">
+      <div id="contact-modal" class="glass-panel modal-panel">
+        <button id="close-modal-btn" class="close-btn">&times;</button>
+        <h2>Contact Info</h2>
+        <div class="contact-info-item">
+          <span>Email</span>
+          <div class="copy-container">
+            <p id="email-text">vinaytummalaofficial@gmail.com</p>
+            <button class="copy-btn" data-copy-target="email-text">Copy</button>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <span>Phone</span>
+          <div class="copy-container">
+            <p id="phone-text">361-696-5781</p>
+            <button class="copy-btn" data-copy-target="phone-text">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1056,6 +1194,63 @@
         window.addEventListener("resize", () =>
           moveHighlight(currentActiveLink)
         );
+
+        // --- NEW: Modal Logic ---
+        const contactButton = document.querySelector(".contact-button");
+        const modalOverlay = document.getElementById("contact-modal-overlay");
+        const closeModalBtn = document.getElementById("close-modal-btn");
+        const copyBtns = document.querySelectorAll(".copy-btn");
+
+        contactButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          modalOverlay.classList.add("visible");
+        });
+
+        const closeModal = () => {
+          modalOverlay.classList.remove("visible");
+        };
+
+        closeModalBtn.addEventListener("click", closeModal);
+        modalOverlay.addEventListener("click", (e) => {
+          if (e.target === modalOverlay) {
+            closeModal();
+          }
+        });
+
+        copyBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const targetId = btn.dataset.copyTarget;
+            const textToCopy = document.getElementById(targetId).innerText;
+
+            // Use the clipboard API
+            navigator.clipboard
+              .writeText(textToCopy)
+              .then(() => {
+                btn.innerText = "Copied!";
+                setTimeout(() => {
+                  btn.innerText = "Copy";
+                }, 2000);
+              })
+              .catch((err) => {
+                console.error("Failed to copy text: ", err);
+                // Fallback for older browsers
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                  document.execCommand("copy");
+                  btn.innerText = "Copied!";
+                  setTimeout(() => {
+                    btn.innerText = "Copy";
+                  }, 2000);
+                } catch (err) {
+                  console.error("Fallback copy failed", err);
+                }
+                document.body.removeChild(textArea);
+              });
+          });
+        });
       });
     </script>
   </body>
