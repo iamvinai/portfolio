@@ -562,23 +562,20 @@
         transform: scale(1.1);
       }
 
-      /* --- NEW: Contact Modal Styles --- */
+      /* --- UPDATED: Contact Modal Styles --- */
       .modal-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         z-index: 2000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transition: opacity 0.3s ease;
       }
 
       .modal-overlay.visible {
@@ -587,24 +584,26 @@
       }
 
       .modal-panel {
+        position: absolute;
         width: 90%;
-        max-width: 500px;
-        padding: 40px;
+        max-width: 360px;
+        padding: 30px;
         border-radius: 20px;
         text-align: center;
-        position: relative;
-        transform: scale(0.9) translateY(20px);
-        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        transform-origin: 50% 100%; /* Animate from bottom center */
+        opacity: 0;
+        transform: scale(0.5);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.3s ease;
       }
 
       .modal-overlay.visible .modal-panel {
-        transform: scale(1) translateY(0);
+        opacity: 1;
+        transform: scale(1);
       }
 
       .modal-panel h2 {
-        font-size: 2rem;
-        margin-bottom: 30px;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
         background: linear-gradient(
           90deg,
           var(--accent-color-1),
@@ -637,7 +636,7 @@
       }
 
       .contact-info-item {
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         text-align: left;
       }
 
@@ -646,6 +645,7 @@
         color: var(--text-secondary-color);
         display: block;
         margin-bottom: 8px;
+        font-size: 0.9rem;
       }
 
       .copy-container {
@@ -662,6 +662,7 @@
         color: var(--text-color);
         font-weight: 500;
         word-break: break-all;
+        font-size: 1rem;
       }
 
       .copy-btn {
@@ -960,11 +961,7 @@
               I'm open to new opportunities and collaborations. Feel free to
               reach out.
             </p>
-            <a
-              href="mailto:vinaytummalaofficial@gmail.com"
-              class="contact-button"
-              >Say Hello</a
-            >
+            <a href="#" class="contact-button">Say Hello</a>
             <div class="social-links">
               <a
                 href="https://www.linkedin.com"
@@ -981,7 +978,7 @@
       </div>
     </main>
 
-    <!-- NEW: Contact Modal HTML -->
+    <!-- UPDATED: Contact Modal HTML -->
     <div id="contact-modal-overlay" class="modal-overlay">
       <div id="contact-modal" class="glass-panel modal-panel">
         <button id="close-modal-btn" class="close-btn">&times;</button>
@@ -1195,14 +1192,46 @@
           moveHighlight(currentActiveLink)
         );
 
-        // --- NEW: Modal Logic ---
+        // --- UPDATED: Modal Logic ---
         const contactButton = document.querySelector(".contact-button");
         const modalOverlay = document.getElementById("contact-modal-overlay");
+        const modalPanel = document.getElementById("contact-modal");
         const closeModalBtn = document.getElementById("close-modal-btn");
         const copyBtns = document.querySelectorAll(".copy-btn");
 
         contactButton.addEventListener("click", (e) => {
           e.preventDefault();
+
+          const btnRect = contactButton.getBoundingClientRect();
+          const modalWidth = modalPanel.offsetWidth;
+
+          // Position the modal to be horizontally centered with the button
+          let left = btnRect.left + btnRect.width / 2 - modalWidth / 2;
+
+          // Position the modal above the button
+          let top = btnRect.top - modalPanel.offsetHeight - 15; // 15px space
+
+          // Default transform origin for expanding from the button below
+          let transformOrigin = "center bottom";
+
+          // If there's not enough space on top, show it below
+          if (top < 10) {
+            top = btnRect.bottom + 15;
+            transformOrigin = "center top"; // Expand from the button above
+          }
+
+          // Boundary checks to keep it on screen
+          if (left < 10) {
+            left = 10;
+          }
+          if (left + modalWidth > window.innerWidth - 10) {
+            left = window.innerWidth - modalWidth - 10;
+          }
+
+          modalPanel.style.top = `${top}px`;
+          modalPanel.style.left = `${left}px`;
+          modalPanel.style.transformOrigin = transformOrigin;
+
           modalOverlay.classList.add("visible");
         });
 
@@ -1212,6 +1241,7 @@
 
         closeModalBtn.addEventListener("click", closeModal);
         modalOverlay.addEventListener("click", (e) => {
+          // Close only if the overlay itself is clicked, not the panel
           if (e.target === modalOverlay) {
             closeModal();
           }
@@ -1222,7 +1252,6 @@
             const targetId = btn.dataset.copyTarget;
             const textToCopy = document.getElementById(targetId).innerText;
 
-            // Use the clipboard API
             navigator.clipboard
               .writeText(textToCopy)
               .then(() => {
